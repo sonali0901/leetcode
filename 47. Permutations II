@@ -1,0 +1,33 @@
+class Solution {
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        Arrays.sort(nums);
+        ArrayList<Integer> numList = new ArrayList<Integer>();
+        for(int i =0;i<nums.length;i++)
+            numList.add(nums[i]);
+        List<List<Integer>> ans = new ArrayList<List<Integer>>();
+        findAll(ans,numList, new ArrayList<Integer>(), nums.length);
+        /*HashSet<List<Integer>> hashSet = new HashSet<List<Integer>>();
+        
+         for(List<Integer> l: hashSet){
+            ans.add(l);
+        }*/
+        return ans;
+        
+    }
+    
+    public void findAll(List<List<Integer>> ans,  ArrayList<Integer> numList,   ArrayList<Integer> temp, int len){
+        if(temp.size() == len)
+        {
+            ans.add(new ArrayList<Integer>(temp));
+        }
+        for(int i = 0;i<numList.size();i++){
+            if(i>0 && numList.get(i) == numList.get(i-1)) continue;
+            temp.add(numList.get(i));
+            int x = numList.remove(i);
+            //System.out.println(temp);
+            findAll(ans, numList, temp, len);
+            numList.add(i, x);
+            temp.remove(temp.size()-1);
+        }
+    }
+}
