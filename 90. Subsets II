@@ -1,0 +1,32 @@
+class Solution {
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        List<List<Integer>> ans = new ArrayList<List<Integer>>();
+        Arrays.sort(nums);
+        findAll(ans, nums, new ArrayList<Integer>(), 0);
+        return ans;
+        
+    }
+    
+    public void findAll(List<List<Integer>> ans, int[] nums, ArrayList<Integer> temp, int start) {
+        ans.add(new ArrayList<Integer>(temp));
+        ArrayList<Integer> prev = null;
+        for(int i = start;i<nums.length;i++){
+            temp.add(nums[i]);
+            if(prev== null || !sameList(temp, prev))
+                findAll(ans, nums, temp, i+1);
+            prev = new ArrayList<>(temp);
+            temp.remove(temp.size()-1);
+        }
+    }
+    
+    public boolean sameList (ArrayList<Integer> temp, ArrayList<Integer> prev){
+        if(temp.size() != prev.size())
+            return false;
+        for(int i = 0;i<temp.size();i++){
+            if(temp.get(i) != prev.get(i))
+                return false;
+        }
+        return true;
+        
+    }
+}
