@@ -1,0 +1,24 @@
+class Solution {
+    public List<List<Integer>> subsets(int[] nums) {
+       List<List<Integer>> ansList = new ArrayList<List<Integer>>();
+        for(int i =0;i<nums.length;i++){
+            List<Integer> ans = new ArrayList<>();
+            ans.add(nums[i]);
+            ansList.add(ans);
+            findAll(ans, i, ansList, nums);
+            
+        }
+        ansList.add(new ArrayList<Integer>());
+        return ansList;
+    }
+    
+    public void findAll(List<Integer> ans, int i, List<List<Integer>> ansList, int[] nums){
+        for(int j = i+1;j<nums.length;j++){
+           List<Integer> temp = new ArrayList<>(ans);
+           // Collections.copy(temp, ans);
+            temp.add(nums[j]);
+            ansList.add(temp);
+            findAll(temp, j, ansList, nums);
+        }
+    }
+}
