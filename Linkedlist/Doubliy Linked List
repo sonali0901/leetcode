@@ -1,0 +1,133 @@
+class MyLinkedList {
+
+    /** Initialize your data structure here. */
+    class ListNode{
+        int val;
+        ListNode prev;
+        ListNode next;
+        
+        public ListNode(int val, ListNode prev, ListNode next){
+            this.val = val;
+            this.prev = prev;
+            this.next = next;
+            
+        }
+    }
+    ListNode head;
+    public MyLinkedList() {
+        head = null;
+    }
+    
+    /** Get the value of the index-th node in the linked list. If the index is invalid, return -1. */
+    public int get(int index) {
+        if(head == null)
+            return -1;
+        if(index == 0)
+            return head.val;
+        ListNode temp = head;
+        while(temp!=null && index>0){
+            temp = temp.next;
+            index--;
+        }
+        if(temp==null){
+            return -1;
+        }
+        return temp.val;
+    }
+    
+    /** Add a node of value val before the first element of the linked list. After the insertion, the new node will be the first node of the linked list. */
+    public void addAtHead(int val) {
+        if(head == null)
+        {
+            head = new ListNode(val,  null, null);
+            return;
+        }
+        ListNode temp = new ListNode(val, null, head);
+        head.prev = temp;
+        head = temp;
+        
+    }
+    
+    /** Append a node of value val to the last element of the linked list. */
+    public void addAtTail(int val) {
+        if(head == null){
+            head = new ListNode(val,  null, null);
+            return;
+        }
+        ListNode temp = head;
+        while(temp.next!=null)
+            temp = temp.next;
+        ListNode tempNew = new ListNode(val, temp, null);
+        temp.next = tempNew;
+    }
+    
+    /** Add a node of value val before the index-th node in the linked list. If index equals to the length of linked list, the node will be appended to the end of linked list. If index is greater than the length, the node will not be inserted. */
+    public void addAtIndex(int index, int val) {
+        if(index==0)
+        {
+            addAtHead(val);
+            return;
+        }
+        ListNode temp = head;
+        ListNode prev = null;
+        while(temp!=null && index>0){
+            prev = temp;
+            temp = temp.next;
+            index--;
+        }
+        if(temp == null && index!=0)
+            return;
+        if(temp == null)
+        {
+            prev.next = new ListNode(val, prev,null);
+        } else{
+            ListNode x = new ListNode(val,prev,temp);
+            prev.next = x;
+            temp.prev=x;
+        }
+            
+    }
+    
+    /** Delete the index-th node in the linked list, if the index is valid. */
+    public void deleteAtIndex(int index) {
+        if(head == null)
+            return;
+        if(index == 0 ){
+            if(head.next == null)
+            {
+                head = null;
+                return;
+            }else
+            {
+                head.next.prev = null;
+                head = head.next;
+                return;
+            }
+        }
+        ListNode temp = head;
+        while(temp!=null && index>0){
+            temp = temp.next;
+            index--;
+        }
+        
+        if(temp == null)
+            return;
+        temp.prev.next = temp.next;
+        //System.out.println(temp.prev.next.val);
+        if(temp.next!=null){
+        temp.next.prev = temp.prev;
+            //System.out.println(temp.next.prev.val);
+        }
+        
+    }
+}
+
+/**
+ * Your MyLinkedList object will be instantiated and called as such:
+ * MyLinkedList obj = new MyLinkedList();
+ * int param_1 = obj.get(index);
+ * obj.addAtHead(val);
+ * obj.addAtTail(val);
+ * obj.addAtIndex(index,val);
+ * obj.deleteAtIndex(index);
+ */
