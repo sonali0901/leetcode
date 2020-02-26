@@ -1,0 +1,47 @@
+class Solution {
+    public int strStr(String haystack, String needle) {
+        //KMP algorithm
+        if(needle == null || needle.length()==0)
+            return 0;
+        if(haystack == null || haystack.length() == 0)
+            return -1;
+        int[] prefix = new int[needle.length()];
+        fillPrefix(prefix, needle);
+        int i  = 0, j =0;
+        for(;j<haystack.length(); ){
+            if(haystack.charAt(j) == needle.charAt(i)){
+                if(i == needle.length()-1)
+                    return j-i;
+                else {
+                    i++;
+                    j++;
+                }
+            }
+            else if(i>0){
+                i = prefix[i-1];
+            } else
+                j++;
+        }
+            return -1;
+    }
+            
+    
+    public void fillPrefix(int[] prefix, String needle){
+        int j =0;
+        prefix[0] = 0;
+        for(int i  =1;i<needle.length();){
+            if(needle.charAt(i) == needle.charAt(j))
+            {
+                prefix[i] = j+1;
+                i++;
+                j++;
+            } else {
+                if(j>0){
+                 j = prefix[j-1];   
+                }
+                else
+                    i++;
+            }
+        }
+    }
+}
