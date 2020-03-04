@@ -1,0 +1,22 @@
+class Solution {
+    public int findDuplicate(int[] nums) {
+        if(nums == null || nums.length == 0)
+            return -1;
+        int index = 0;
+        while(true){
+            if(nums[index] == -1)
+            {
+                return index;
+            }
+            else
+            {
+                int temp = nums[index];
+                nums[index] = -1;
+                index = temp;
+                
+            }
+        }
+        
+        
+    }
+}
