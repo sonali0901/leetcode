@@ -1,0 +1,25 @@
+class Solution {
+    int[][] arr = new int[100][100];
+    public int uniquePaths(int m, int n) {
+        if(m == 0 || n == 0){
+            return 0;
+        }
+        if(m == 1 || n == 1)
+            return 1;
+        return recursePaths(0, 0, m-1, n-1);
+        
+    }
+    
+    public int recursePaths(int startRow, int startCol, int endRow, int endCol)
+    {
+        if(startRow == endRow && startCol == endCol)
+            return 1;
+        if(startRow>endRow || startCol>endCol)
+            return 0;
+        if(arr[startRow][startCol]!=0)
+            return arr[startRow][startCol];
+        int ans = recursePaths(startRow+1, startCol, endRow, endCol) + recursePaths(startRow, startCol+1, endRow, endCol);
+        arr[startRow][startCol] = ans;
+        return ans;
+    }
+}
