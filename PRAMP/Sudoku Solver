@@ -1,0 +1,76 @@
+import java.io.*;
+import java.util.*;
+
+class Solution {
+
+
+  static int[] getCandidated(char[][] board, int i,int j) {
+    int candidates[] = new int[9];
+    for(int col = 0; col<9;col++)
+    {
+      
+      if(board[i][col]!='.') {
+      	//System.out.println((board[i][col]-'0')-1);
+      	candidates[(board[i][col]-'0')-1] = 1; // present
+      }
+    }
+    for(int row = 0; row<9;row++)
+    {
+      if(board[row][j]!='.'){
+      	//System.out.println((board[row][j]-'0')-1);
+      	candidates[(board[row][j]-'0')-1] = 1;
+      }
+      
+    }
+    return candidates;
+  }
+  static int countOfOptions(int[] candidates){
+    int count = 0;
+    for(int i =0;i<9;i++)
+    {
+      if(candidates[i] == 0)
+        count++;
+    }
+    return count;
+  }
+  static boolean sudokuSolve(char[][] board) {
+    // your code goes here
+    boolean flag = false;
+    int candidates[] = new int[9];
+    int remCandidates[] = new int[9];
+    int minRow = 0; int minCol = 0;
+    int min = Integer.MAX_VALUE;
+    for(int i =0;i<9;i++){
+      for(int j =0;j<9;j++) {
+        if(board[i][j] == '.') {
+          candidates = getCandidated(board, i, j); // 1 means not a candidate
+          int countOfCan = countOfOptions(candidates);
+          if(countOfCan<=min)
+          {
+            minRow = i;
+            minCol = j;
+            remCandidates = candidates.clone(); 
+            min = countOfCan;
+          }
+          flag = true;
+        }
+      }
+    }
+    if(!flag)
+      return true; //already filled
+    for(int i =0;i<9;i++){
+      if(remCandidates[i] == 0){
+       board[minRow][minCol] = (char)(i+1+'0');
+       if( sudokuSolve(board))
+         return true;
+      }
+    }
+    return false;
+  }
+
+  public static void main(String[] args) {
+
+
+}
+
+}
