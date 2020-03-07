@@ -1,0 +1,58 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    
+    // time and space both are O(n) in worst case of skewed. O(h)
+    /*
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root == null || p == null || q == null)
+            return null;
+        LinkedList<TreeNode> pPath = new LinkedList<>();
+        LinkedList<TreeNode> qPath = new LinkedList<>();
+        TreeNode temp = root;
+        while(temp.val!=p.val){
+            pPath.add(temp);
+            if(p.val<temp.val)
+                temp = temp.left;
+            else
+                temp = temp.right;
+        }
+        pPath.add(temp);
+        temp = root;
+        while(temp.val!=q.val){
+            qPath.add(temp);
+            if(q.val<temp.val)
+                temp = temp.left;
+            else
+                temp = temp.right;
+        }
+        qPath.add(temp);
+        int i =0;
+        while(i<pPath.size() && i<qPath.size() && pPath.get(i).val == qPath.get(i).val){
+            temp = pPath.get(i);
+            i++;
+        }
+        return temp;
+    }*/
+    
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root == null || p == null || q == null)
+            return null;
+        
+        while(true){
+            if(p.val<root.val && q.val<root.val)
+                root = root.left;
+            else if(p.val>root.val && q.val>root.val)
+                root = root.right;
+            else
+                return root;
+        }
+
+}}
