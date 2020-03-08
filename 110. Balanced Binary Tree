@@ -8,13 +8,13 @@
  * }
  */
 class Solution {
-    // top to bottom O(N^2)
+    // top to bottom T(n) = 2T(n/2) + O(n) ==> O(NlogN)
     /*public boolean isBalanced(TreeNode root) {
         if(root == null)
             return true;
-        int leftHeight = getHeight(root.left);
+        int leftHeight = getHeight(root.left); // O(N)
         int rightHeight = getHeight(root.right);
-        
+                                                      //(T/2)
         return Math.abs(leftHeight-rightHeight)<=1 && isBalanced(root.left) && isBalanced(root.right);
         
         
