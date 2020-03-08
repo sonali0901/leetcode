@@ -1,0 +1,32 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode sortedArrayToBST(int[] nums) {
+        if(nums == null || nums.length ==0)
+            return null;
+        TreeNode ans = null;
+        return construct(nums,0,nums.length-1, ans);
+        
+    }
+    
+    public TreeNode construct(int nums[], int low, int high, TreeNode ans){
+        if(low<=high){
+            int mid;
+            if((high-low)%2==0) // odd elements
+                mid = (high - low)/2 + low;
+            else
+                mid = (high-low)/2 + low +1;
+            ans = new TreeNode(nums[mid]);
+            ans.left = construct(nums, low, mid-1, ans.left);
+            ans.right = construct(nums, mid+1, high, ans.right);
+        }
+        return ans;
+    }
+}
