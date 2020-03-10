@@ -1,0 +1,64 @@
+class Solution {
+    class Node{
+        int val;
+        Node left;
+        Node right;
+        
+        Node(int val){
+            this.val = val;
+        }
+    }
+    public boolean validateBinaryTreeNodes(int n, int[] leftChild, int[] rightChild) {
+       Node[] arr = new Node[n];
+        int[] count = new int[n]; // if none is refrenced multiple times
+        for(int i = 0;i<n;i++)
+            arr[i] = new Node(i); /// initializa all nodes
+        for(int i=0;i<leftChild.length;i++){
+            if(leftChild[i] == -1)
+                continue;
+            arr[i].left = arr[leftChild[i]];
+            count[leftChild[i]]++;
+        }
+        for(int i=0;i<rightChild.length;i++){
+            if(rightChild[i] == -1)
+                continue;
+            arr[i].right = arr[rightChild[i]];
+            count[rightChild[i]]++;
+        }
+        int rootCount = 0;
+        int root = -1;
+        for(int i =0;i<count.length;i++){
+            if(count[i]==0){
+                rootCount++; // no of roots
+                root = i; // val of index
+            } else if(count[i]>1) // referenced more than once
+                return false;
+        }
+        if(rootCount == 0 || rootCount>1) // no root or multiple roots
+            return false;
+        return bfs(root,arr);
+    }
+    
+    public boolean bfs(int root, Node[] arr){
+        Node temp = arr[root];
+        boolean visited[] = new boolean[arr.length];
+        LinkedList<Node> queue = new LinkedList<>();
+        queue.add(temp);
+        while(!queue.isEmpty()){
+            temp = queue.remove();
+            if(visited[temp.val])
+                return false;
+            visited[temp.val] = true;
+            if(temp.left!=null){
+                queue.add(temp.left);
+            }
+            if(temp.right!=null){
+                queue.add(temp.right);
+            }
+        }
+        for(int i =0;i<visited.length;i++)
+            if(visited[i]==false)
+                return false;
+        return true;
+    }
+}
