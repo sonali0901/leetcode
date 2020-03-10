@@ -1,0 +1,72 @@
+class Solution {
+    
+    LinkedList<Integer> graph[];
+    int vertices;
+    
+    public Solution(int n){
+        vertices = n;
+        graph = new LinkedList[n];
+        for(int i =0;i<n;i++)
+            graph[i] = null;
+    }
+    public Solution(){}
+    public void addEdge(int x, int y){
+        if(graph[x-1] == null){
+            graph[x-1] = new LinkedList<>();
+        }
+        graph[x-1].add(y);
+    }
+    
+    public int checkIfEmpty(){
+        int count = 0;
+        int ans = -1;
+        for(int i =0;i<graph.length;i++)
+        {
+            if(graph[i] == null){
+                count++;
+                ans = i;
+            }
+        }
+        if(count == 1)
+            return ans;
+        return -1;
+    }
+    public boolean checkTrust(int indexOfJudge){
+        for(int i =0;i<graph.length;i++)
+        {
+            if(i == indexOfJudge)
+                continue;
+            Iterator it = graph[i].iterator();
+            boolean flag = false;
+            while(it.hasNext()){
+                Integer value = (Integer)it.next();
+                if(value == indexOfJudge+1){
+                    flag = true;
+                    break;
+                }
+            }
+            if(!flag) // not found
+                return flag;
+        }
+        return true;
+    }
+    public int findJudge(int n, int[][] trust) {
+        if(n== 0)
+            return -1;
+        if(n==1)
+            return 1;
+        if(trust.length == 0)
+            return -1;
+        Solution solution = new Solution(n);
+        for(int i =0;i<trust.length;i++){
+            solution.addEdge(trust[i][0], trust[i][1]);
+        }
+        int indexOfJudge = solution.checkIfEmpty();
+        if( indexOfJudge == -1) return -1;
+        
+        if(solution.checkTrust(indexOfJudge))
+            return indexOfJudge+1;
+        return -1;
+        
+    }
+}
